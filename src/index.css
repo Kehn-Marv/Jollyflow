@@ -1,0 +1,94 @@
+/* --- MANAGED FONT IMPORTS START (do not edit manually) --- */
+/* INTERNAL USE NAME: Heading */
+@import url('https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* INTERNAL USE NAME: Mono */
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* --- MANAGED FONT IMPORTS END --- */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
+
+/* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
+@import './_designSystem/ds-6551b66a-cfd3-4df9-a9b1-9ead8d7fe7e9/index.css';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+/* JolliFlow theme: shadcn tokens mapped onto the brand palette */
+:root {
+  --background: #F6F5EF;
+  --foreground: #10110F;
+  --card: #FFFFFF;
+  --card-foreground: #10110F;
+  --popover: #FFFFFF;
+  --popover-foreground: #10110F;
+  --primary: #10110F;
+  --primary-foreground: #F6F5EF;
+  --secondary: #ECEAE0;
+  --secondary-foreground: #10110F;
+  --muted: #ECEAE0;
+  --muted-foreground: #5E6058;
+  --accent: #ECEAE0;
+  --accent-foreground: #10110F;
+  --destructive: #C2361B;
+  --destructive-foreground: #FFFFFF;
+  --border: #E3E0D4;
+  --input: #D6D3C6;
+  --ring: #10110F;
+  --chart-1: #10110F;
+  --chart-2: #D9F52B;
+  --chart-3: #FF704F;
+  --chart-4: #64CEF0;
+  --chart-5: #F78CDE;
+  --radius: 0.875rem;
+  --sidebar: #10110F;
+  --sidebar-foreground: #F6F5EF;
+  --sidebar-primary: #D9F52B;
+  --sidebar-primary-foreground: #10110F;
+  --sidebar-accent: #1D1F1B;
+  --sidebar-accent-foreground: #F6F5EF;
+  --sidebar-border: #26281F;
+  --sidebar-ring: #D9F52B;
+}
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+  :focus-visible {
+    outline: 2px solid #10110F;
+    outline-offset: 2px;
+  }
+  .on-dark :focus-visible {
+    outline-color: #D9F52B;
+  }
+}
+/* Decorative patterns (used sparingly) */
+.bg-dots {
+  background-image: radial-gradient(rgba(16, 17, 15, 0.13) 1px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+.bg-dots-light {
+  background-image: radial-gradient(rgba(246, 245, 239, 0.12) 1px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

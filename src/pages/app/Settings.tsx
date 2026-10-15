@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { service, DATA_MODE } from '../../services';
 import { useAsyncAction } from '../../hooks/useAsyncAction';
 import { ToggleRow } from '../../components/ui/ToggleRow';
+import { AlatWallet } from '../../components/wallet/AlatWallet';
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog';
 import { FormField } from '../../components/ui/FormField';
 import { Button } from '../../components/ui/Button';
@@ -26,7 +27,7 @@ export function Settings() {
   const setPref = (k: keyof NotificationPrefs, v: boolean) => run(() => updateProfile({ notificationPrefs: { ...prefs, [k]: v } }), { success: 'Preference saved' });
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto max-w-4xl space-y-8">
       <h1 className="text-3xl font-bold text-ink">Settings</h1>
       <section className="rounded-[1.4rem] border border-line bg-white p-5">
         <h2 className="font-display text-lg font-semibold">Profile</h2>
@@ -38,6 +39,13 @@ export function Settings() {
           <Button type="submit" disabled={pending} className={cx(btn.base, btn.ink, btn.md, 'sm:col-span-2 sm:justify-self-start')}>Save profile</Button>
         </form>
         <p className="mt-4 text-xs text-smoke">Account type: {user.isDemo ? 'Shared demo account' : 'Prototype account on this device'} · Data mode: {DATA_MODE} (localStorage)</p>
+      </section>
+      <section id="account" className="scroll-mt-24 space-y-4" aria-labelledby="account-title">
+        <div>
+          <h2 id="account-title" className="font-display text-lg font-semibold">Account</h2>
+          <p className="text-sm text-smoke">Your ALAT wallet for receiving and sending money. Kept here, away from your event pages.</p>
+        </div>
+        <AlatWallet owner={user.email} accountName={user.businessName || user.name} />
       </section>
       <section className="rounded-[1.4rem] border border-line bg-white p-5">
         <h2 className="font-display text-lg font-semibold">Notifications</h2>

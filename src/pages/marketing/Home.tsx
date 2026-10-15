@@ -23,7 +23,7 @@ export function Home() {
           tone="lime"
           reverse
           eyebrow="Money"
-          title={<>Follow<br />every naira.</>}
+          title={<>Track<br />every naira</>}
           body="Planned, committed, paid and pending stay in their own lanes. A pending transfer is never shown as paid, and a failed one never disappears quietly."
           points={['Budget categories with planned vs. committed', 'Outstanding vendor balances in one number', 'Contributions tracked separately from spending']}
           visual={<MoneyVisual />} />

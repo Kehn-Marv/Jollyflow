@@ -22,7 +22,7 @@ const TABS: Array<{id: string;label: string;feature?: keyof EventFeatures;}> = [
 { id: 'plan', label: 'Plan & tasks' },
 { id: 'guests', label: 'Guests', feature: 'guests' },
 { id: 'vendors', label: 'Vendors', feature: 'vendors' },
-{ id: 'money', label: 'Money' },
+{ id: 'money', label: 'Budget' },
 { id: 'gifts', label: 'Gifts', feature: 'gifting' },
 { id: 'tickets', label: 'Tickets', feature: 'tickets' },
 { id: 'updates', label: 'Updates & team' },
@@ -51,7 +51,7 @@ export function EventWorkspace() {
   const featureOff = current.feature && !event.features[current.feature];
 
   return (
-    <div className="space-y-5">
+    <div className="mx-auto max-w-6xl space-y-8 pb-10">
       <EventHeader event={event} />
       <nav aria-label="Event sections" className="sticky top-16 z-10 -mx-4 border-b border-line bg-paper/95 px-4 backdrop-blur sm:-mx-6 sm:px-6">
         <ul className="no-scrollbar flex gap-1 overflow-x-auto">

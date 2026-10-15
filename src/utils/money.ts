@@ -17,6 +17,14 @@ export function formatNaira(kobo: Kobo): string {
   return nairaFormatter.format(Math.round(kobo / 100)).replace('NGN', '₦').replace(/\u00a0/g, '');
 }
 
+/** Format integer kobo with kobo precision, e.g. ₦0.00 — used for wallet balances. */
+export function formatNairaExact(kobo: Kobo): string {
+  const sign = kobo < 0 ? '−' : '';
+  const abs = Math.abs(Math.round(kobo));
+  const whole = Math.floor(abs / 100).toLocaleString('en-NG');
+  return `${sign}₦${whole}.${String(abs % 100).padStart(2, '0')}`;
+}
+
 function trim(value: number): string {
   return value.toFixed(value >= 100 ? 0 : 1).replace(/\.0$/, '');
 }

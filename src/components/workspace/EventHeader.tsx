@@ -24,23 +24,23 @@ export function EventHeader({ event }: {event: EventRecord;}) {
   const s = STATUS[event.status];
 
   return (
-    <header className="overflow-hidden rounded-[1.6rem] border border-line bg-white">
-      <div className="relative h-36 sm:h-48">
+    <header className="overflow-hidden rounded-3xl border border-line bg-white p-2">
+      <div className="relative h-36 overflow-hidden rounded-[1.25rem] sm:h-52">
         <img src={event.coverUrl} alt="" className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-ink/35" aria-hidden="true" />
+        <div className="absolute inset-0 bg-ink/20" aria-hidden="true" />
         <div className="absolute left-4 top-4 flex flex-wrap gap-1.5">
           <StatusPill tone="dark">{EVENT_TYPE_LABELS[event.type]}</StatusPill>
           <StatusPill tone={s.tone}>{s.label}</StatusPill>
           <StatusPill tone="neutral" icon={event.visibility === 'public' ? Globe : Lock}>{event.visibility === 'public' ? 'Public' : 'Private'}</StatusPill>
           {event.isSample && <StatusPill tone="pink">Sample</StatusPill>}
         </div>
-        <div className="absolute bottom-4 right-4 rounded-xl border-2 border-ink bg-lime px-3 py-1.5 font-display text-sm font-bold text-ink shadow-pop-sm">
+        <div className="absolute bottom-4 right-4 rounded-full bg-white/90 px-3 py-1.5 text-sm font-semibold text-ink backdrop-blur">
           {countdownLabel(event.startsAt, event.endsAt)}
         </div>
       </div>
-      <div className="flex flex-col gap-4 p-4 sm:p-6 lg:flex-row lg:items-end lg:justify-between">
+      <div className="flex flex-col gap-5 px-4 pb-5 pt-6 sm:px-6 lg:flex-row lg:items-end lg:justify-between">
         <div className="min-w-0">
-          <h1 className="text-2xl font-bold leading-tight text-ink sm:text-3xl">{event.title}</h1>
+          <h1 className="text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">{event.title}</h1>
           <p className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-smoke">
             <span className="flex items-center gap-1.5"><CalendarDays className="h-4 w-4" aria-hidden="true" />{fmtDate(event.startsAt)} · {fmtTime(event.startsAt)}–{fmtTime(event.endsAt)}</span>
             <span className="flex items-center gap-1.5"><MapPin className="h-4 w-4" aria-hidden="true" />{event.venue}, {event.city}</span>

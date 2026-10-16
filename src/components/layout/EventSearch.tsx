@@ -20,7 +20,7 @@ export function EventSearch({ className, autoFocus, onDone }: EventSearchProps) 
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [params] = useSearchParams();
-  const onEventsPage = pathname === '/app/events';
+  const onEventsPage = pathname.replace(/\/$/, '') === '/app';
   const [query, setQuery] = useState(onEventsPage ? params.get('q') ?? '' : '');
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
@@ -53,7 +53,7 @@ export function EventSearch({ className, autoFocus, onDone }: EventSearchProps) 
     setOpen(false);
     onDone?.();
     if (pick && !onEventsPage) return navigate(`/app/events/${pick.id}`);
-    navigate(`/app/events${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ''}`);
+    navigate(`/app${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ''}`);
   }
 
   return (
@@ -74,14 +74,14 @@ export function EventSearch({ className, autoFocus, onDone }: EventSearchProps) 
           setQuery(e.target.value);
           setActive(0);
           setOpen(true);
-          if (onEventsPage) navigate(`/app/events${e.target.value.trim() ? `?q=${encodeURIComponent(e.target.value)}` : ''}`, { replace: true });
+          if (onEventsPage) navigate(`/app${e.target.value.trim() ? `?q=${encodeURIComponent(e.target.value)}` : ''}`, { replace: true });
         }}
         onKeyDown={(e) => {
           if (e.key === 'ArrowDown') {e.preventDefault();setActive((a) => Math.min(a + 1, results.length - 1));}
           if (e.key === 'ArrowUp') {e.preventDefault();setActive((a) => Math.max(a - 1, 0));}
           if (e.key === 'Escape') setOpen(false);
         }}
-        placeholder="Search events by name or city"
+        placeholder="Search events…"
         className={cx(inputClass, 'h-10 pl-9 text-base sm:text-sm')} />
       
       {open && query.trim() && !onEventsPage &&

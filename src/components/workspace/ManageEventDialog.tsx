@@ -79,7 +79,7 @@ export function ManageEventDialog({ event, open, onOpenChange }: Props) {
           const ok = await run(() => service.deleteEvent(event.id).then(() => true));
           if (ok) {
             toast.success('Event deleted');
-            navigate('/app/events', { replace: true });
+            navigate('/app', { replace: true });
           }
         }} />
       

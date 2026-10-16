@@ -1,6 +1,5 @@
 import type { ISODateTime, Kobo } from './domain';
 
-/** Virtual account issued for receiving money. Simulated in the prototype. */
 export interface VirtualAccount {
   accountNumber: string;
   accountName: string;
@@ -8,17 +7,27 @@ export interface VirtualAccount {
   createdAt: ISODateTime;
 }
 
-export interface WalletState {
-  account: VirtualAccount | null;
-  /** Spendable wallet balance, in kobo */
-  balance: Kobo;
-  /** Ticket / contribution sales not yet settled, in kobo */
-  pendingSales: Kobo;
-  /** Settled funds that can be paid out, in kobo */
-  availableToWithdraw: Kobo;
+export type TransferMode = 'send' | 'payout';
+
+export interface WalletTxn {
+  id: string;
+  kind: 'account_created' | TransferMode;
+  amount: Kobo;
+  bankCode: string;
+  accountNumber: string;
+  narration: string;
+  createdAt: ISODateTime;
 }
 
-export type TransferMode = 'send' | 'payout';
+export interface WalletState {
+  account: VirtualAccount | null;
+  balance: Kobo;
+  pendingSales: Kobo;
+  availableToWithdraw: Kobo;
+  bonusBalance: Kobo;
+  bonusYesterday: Kobo;
+  history: WalletTxn[];
+}
 
 export interface TransferInput {
   mode: TransferMode;

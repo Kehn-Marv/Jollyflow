@@ -8,11 +8,25 @@ interface PinDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirm: (pin: string) => Promise<void>;
+  title?: string;
+  description?: string;
+  submitLabel?: string;
+  pendingLabel?: string;
+  pendingHint?: string;
 }
 
 const LENGTH = 4;
 
-export function PinDialog({ open, onOpenChange, onConfirm }: PinDialogProps) {
+export function PinDialog({
+  open,
+  onOpenChange,
+  onConfirm,
+  title = 'Enter PIN to generate',
+  description = 'Your PIN is encrypted before it is sent.',
+  submitLabel = 'Generate account',
+  pendingLabel = 'Generating…',
+  pendingHint = 'Creating your ALAT virtual account'
+}: PinDialogProps) {
   const [digits, setDigits] = useState<string[]>(Array(LENGTH).fill(''));
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
@@ -61,15 +75,15 @@ export function PinDialog({ open, onOpenChange, onConfirm }: PinDialogProps) {
         <form onSubmit={submit} noValidate className="p-7">
           <DialogHeader className="items-center text-center">
             <span className="grid h-12 w-12 place-items-center rounded-full bg-sand"><LockKeyhole className="h-5 w-5 text-ink" aria-hidden="true" /></span>
-            <DialogTitle className="mt-3 font-display text-xl font-semibold">Enter PIN to generate</DialogTitle>
-            <DialogDescription className="text-smoke">Your PIN is encrypted before it is sent.</DialogDescription>
+            <DialogTitle className="mt-3 font-display text-xl font-semibold">{title}</DialogTitle>
+            <DialogDescription className="text-smoke">{description}</DialogDescription>
           </DialogHeader>
 
           {pending ?
           <div className="flex flex-col items-center gap-3 py-8" role="status" aria-live="polite">
               <Loader2 className="h-7 w-7 animate-spin text-ink" aria-hidden="true" />
-              <p className="text-sm font-medium text-ink">Generating…</p>
-              <p className="text-xs text-smoke">Creating your ALAT virtual account</p>
+              <p className="text-sm font-medium text-ink">{pendingLabel}</p>
+              <p className="text-xs text-smoke">{pendingHint}</p>
             </div> :
 
           <>
@@ -100,7 +114,7 @@ export function PinDialog({ open, onOpenChange, onConfirm }: PinDialogProps) {
                 </div>
               </fieldset>
               <p className="mt-3 min-h-[1.25rem] text-center text-sm text-danger" role="alert">{error}</p>
-              <Button type="submit" disabled={pin.length !== LENGTH} className={cx(btn.base, btn.ink, btn.md, 'mt-2 w-full')}>Generate account</Button>
+              <Button type="submit" disabled={pin.length !== LENGTH} className={cx(btn.base, btn.ink, btn.md, 'mt-2 w-full')}>{submitLabel}</Button>
               <button type="button" onClick={() => onOpenChange(false)} className="mt-2 w-full rounded-full py-2 text-sm font-medium text-smoke hover:text-ink">Cancel</button>
             </>
           }

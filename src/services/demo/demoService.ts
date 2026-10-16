@@ -128,7 +128,7 @@ export const demoService: JolliFlowService = {
       if (db.collaborators.some((c) => c.eventId === eventId && c.email.toLowerCase() === email)) {
         throw new DemoServiceError('This person is already on the team.');
       }
-      const c = { id: createId('c'), eventId, name: input.name.trim(), email, role: input.role, status: 'invited' as const, isYou: false };
+      const c = { id: createId('c'), eventId, name: input.name.trim(), email, role: input.role, status: 'invited' as const, isYou: false, phone: input.phone?.trim() || undefined };
       db.collaborators.push(c);
       log(db, eventId, 'collaborator', `${c.name} was invited to the team (simulated invite)`, `/app/events/${eventId}/updates`);
       return c;

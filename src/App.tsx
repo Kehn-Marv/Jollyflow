@@ -7,6 +7,7 @@ import { ScrollManager } from './components/layout/ScrollManager';
 import { PublicLayout } from './components/layout/PublicLayout';
 import { RequireAuth } from './components/layout/RequireAuth';
 import { RouteFallback } from './components/layout/RouteFallback';
+import { LegacyEventsRedirect } from './components/layout/LegacyEventsRedirect';
 import { Home } from './pages/marketing/Home';
 
 /** Route-level code splitting: only the landing page ships in the first bundle. */
@@ -33,7 +34,6 @@ const SignUp = named(() => import('./pages/auth/SignUp'), 'SignUp');
 const RecoverPassword = named(() => import('./pages/auth/RecoverPassword'), 'RecoverPassword');
 const Onboarding = named(() => import('./pages/auth/Onboarding'), 'Onboarding');
 const Dashboard = named(() => import('./pages/app/Dashboard'), 'Dashboard');
-const Events = named(() => import('./pages/app/Events'), 'Events');
 const CreateEvent = named(() => import('./pages/app/CreateEvent'), 'CreateEvent');
 const EventWorkspace = named(() => import('./pages/app/EventWorkspace'), 'EventWorkspace');
 const Settings = named(() => import('./pages/app/Settings'), 'Settings');
@@ -77,7 +77,7 @@ export function App() {
 
               <Route path="/app" element={<RequireAuth><AppShell /></RequireAuth>}>
                 <Route index element={<Dashboard />} />
-                <Route path="events" element={<Events />} />
+                <Route path="events" element={<LegacyEventsRedirect />} />
                 <Route path="events/new" element={<CreateEvent />} />
                 <Route path="events/:eventId/:tab?" element={<EventWorkspace />} />
                 <Route path="vendors" element={<VendorDirectory inApp />} />

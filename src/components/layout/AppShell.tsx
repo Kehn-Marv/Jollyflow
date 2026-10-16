@@ -15,7 +15,7 @@ import { computeInsights } from '../../utils/insights';
 import { cx } from '../../utils/styles';
 
 /** Event search only belongs where events are listed. */
-const SEARCH_PATHS = ['/app', '/app/events'];
+const SEARCH_PATHS = ['/app'];
 
 export function AppShell() {
   const db = useDb();

@@ -122,18 +122,18 @@ export function buildSeed(now: Date = new Date()): DemoDatabase {
 
   /* ---------------- Collaborators ---------------- */
   const collaborators: Collaborator[] = [
-  { id: 'c_w_you', eventId: 'e_wedding', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'owner', status: 'active', isYou: true },
-  { id: 'c_w_tunde', eventId: 'e_wedding', name: 'Tunde Bakare', email: 'tunde@example.com', role: 'co_host', status: 'active', isYou: false },
-  { id: 'c_w_ngozi', eventId: 'e_wedding', name: 'Ngozi Eze', email: 'ngozi@example.com', role: 'finance', status: 'active', isYou: false },
-  { id: 'c_w_bayo', eventId: 'e_wedding', name: 'Bayo Adeyemi', email: 'bayo@example.com', role: 'vendor_manager', status: 'invited', isYou: false },
-  { id: 'c_b_you', eventId: 'e_birthday', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'planner', status: 'active', isYou: true },
-  { id: 'c_b_kemi', eventId: 'e_birthday', name: 'Kemi Adebayo', email: 'kemi@example.com', role: 'owner', status: 'active', isYou: false },
-  { id: 'c_c_you', eventId: 'e_concert', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'owner', status: 'active', isYou: true },
-  { id: 'c_c_segun', eventId: 'e_concert', name: 'Segun Ola', email: 'segun@example.com', role: 'planner', status: 'active', isYou: false },
-  { id: 'c_c_halima', eventId: 'e_concert', name: 'Halima Musa', email: 'halima@example.com', role: 'vendor_manager', status: 'active', isYou: false },
-  { id: 'c_n_you', eventId: 'e_naming', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'planner', status: 'active', isYou: true },
-  { id: 'c_m_you', eventId: 'e_mixer', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'owner', status: 'active', isYou: true },
-  { id: 'c_g_you', eventId: 'e_grad', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'owner', status: 'active', isYou: true }];
+  { id: 'c_w_you', eventId: 'e_wedding', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'owner', status: 'active', isYou: true, phone: '+234 803 412 7765' },
+  { id: 'c_w_tunde', eventId: 'e_wedding', name: 'Tunde Bakare', email: 'tunde@example.com', role: 'co_host', status: 'active', isYou: false, phone: '+234 806 220 1934' },
+  { id: 'c_w_ngozi', eventId: 'e_wedding', name: 'Ngozi Eze', email: 'ngozi@example.com', role: 'finance', status: 'active', isYou: false, phone: '+234 809 551 0287' },
+  { id: 'c_w_bayo', eventId: 'e_wedding', name: 'Bayo Adeyemi', email: 'bayo@example.com', role: 'vendor_manager', status: 'invited', isYou: false, phone: '+234 812 774 3016' },
+  { id: 'c_b_you', eventId: 'e_birthday', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'planner', status: 'active', isYou: true, phone: '+234 803 412 7765' },
+  { id: 'c_b_kemi', eventId: 'e_birthday', name: 'Kemi Adebayo', email: 'kemi@example.com', role: 'owner', status: 'active', isYou: false, phone: '+234 802 918 4450' },
+  { id: 'c_c_you', eventId: 'e_concert', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'owner', status: 'active', isYou: true, phone: '+234 803 412 7765' },
+  { id: 'c_c_segun', eventId: 'e_concert', name: 'Segun Ola', email: 'segun@example.com', role: 'planner', status: 'active', isYou: false, phone: '+234 705 336 1208' },
+  { id: 'c_c_halima', eventId: 'e_concert', name: 'Halima Musa', email: 'halima@example.com', role: 'vendor_manager', status: 'active', isYou: false, phone: '+234 816 042 7791' },
+  { id: 'c_n_you', eventId: 'e_naming', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'planner', status: 'active', isYou: true, phone: '+234 803 412 7765' },
+  { id: 'c_m_you', eventId: 'e_mixer', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'owner', status: 'active', isYou: true, phone: '+234 803 412 7765' },
+  { id: 'c_g_you', eventId: 'e_grad', name: 'Ada Okafor', email: 'ada@demo.jolliflow.ng', role: 'owner', status: 'active', isYou: true, phone: '+234 803 412 7765' }];
 
 
   /* ---------------- Tasks ---------------- */

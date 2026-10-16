@@ -79,6 +79,7 @@ export interface Collaborator {
   role: CollaboratorRole;
   status: 'active' | 'invited';
   isYou: boolean;
+  phone?: string;
 }
 
 /* ---------- Tasks ---------- */

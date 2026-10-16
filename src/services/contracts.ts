@@ -189,7 +189,7 @@ export interface JolliFlowService {
   deleteEvent(id: ID): Promise<void>;
 
   // Collaboration
-  inviteCollaborator(eventId: ID, input: {name: string;email: string;role: CollaboratorRole;}): Promise<Collaborator>;
+  inviteCollaborator(eventId: ID, input: {name: string;email: string;role: CollaboratorRole;phone?: string;}): Promise<Collaborator>;
   removeCollaborator(id: ID): Promise<void>;
   postAnnouncement(input: {eventId: ID;title: string;body: string;isPublic: boolean;}): Promise<Announcement>;
   deleteAnnouncement(id: ID): Promise<void>;

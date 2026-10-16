@@ -67,7 +67,7 @@ export function PublicEvent() {
   return shell(
     <>
       <section className="relative">
-        <img src={event.coverUrl} alt="" className="h-56 w-full object-cover sm:h-80" />
+        <img src={event.coverUrl} alt="" decoding="async" className="h-56 w-full bg-sand object-cover sm:h-80" />
         {state === 'cancelled' && <p className="bg-danger px-4 py-2 text-center font-semibold text-white">This event has been cancelled.</p>}
         {state === 'ended' && <p className="bg-ink px-4 py-2 text-center font-semibold text-paper">This event has ended.</p>}
       </section>

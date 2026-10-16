@@ -1,12 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, MapPin } from 'lucide-react';
-import { PageHero } from '../../components/marketing/PageHero';
-import { VendorTimelineVisual } from '../../components/home/visuals/VendorTimelineVisual';
+import { ArrowRight } from 'lucide-react';
+import { FeatureHero } from '../../components/marketing/FeatureHero';
+import { BookingHeroVisual } from '../../components/marketing/visuals/BookingHeroVisual';
+import { VendorCard } from '../../components/vendors/VendorCard';
 import { useDb } from '../../contexts/DataContext';
-import { VENDOR_CATEGORY_LABELS } from '../../utils/events';
-import { formatNairaCompact } from '../../utils/money';
-import { DemoTag } from '../../components/ui/DemoTag';
 import { btn, cx } from '../../utils/styles';
 
 const LIFECYCLE = [
@@ -23,12 +21,12 @@ export function FeatureVendors() {
 
   return (
     <>
-      <PageHero
-        eyebrow="Vendors & bookings"
-        title={<>From “send price” to settled balance.</>}
-        body="Organisers find and book vendors with clear terms. Vendors get structured requests instead of scattered DMs. Everyone sees what’s owed and when."
+      <FeatureHero
+        kicker="For vendors"
+        title={<>Book once. <span className="text-lime">Settle clean.</span></>}
+        body="Clear terms, real deposit dates and one balance everyone agrees on — instead of “send price” threads and screenshot receipts."
         actions={<><Link to="/vendors" className={cx(btn.base, btn.lime, btn.lg)}>Browse vendors</Link><Link to="/signup" className={cx(btn.base, btn.onDark, btn.lg)}>Plan an event</Link></>}
-        visual={<VendorTimelineVisual />} />
+        visual={<BookingHeroVisual />} />
       
       <section className="bg-paper">
         <div className="container py-20">
@@ -56,15 +54,7 @@ export function FeatureVendors() {
           <ul className="mt-8 grid gap-4 md:grid-cols-3">
             {vendors.map((v) =>
             <li key={v.id}>
-                <Link to={`/vendors/${v.id}`} className="group block overflow-hidden rounded-[1.4rem] border-2 border-ink bg-white shadow-pop transition hover:-translate-y-0.5">
-                  <img src={v.portfolio[0]} alt="" className="aspect-[4/3] w-full object-cover" loading="lazy" />
-                  <div className="p-5">
-                    <div className="flex items-center justify-between gap-2"><p className="text-xs font-semibold text-coral">{VENDOR_CATEGORY_LABELS[v.category]}</p><DemoTag>Sample</DemoTag></div>
-                    <h3 className="mt-1 font-display text-lg font-semibold text-ink">{v.name}</h3>
-                    <p className="mt-1 flex items-center gap-1 text-sm text-smoke"><MapPin className="h-3.5 w-3.5" aria-hidden="true" />{v.serviceAreas.join(', ')}</p>
-                    <p className="mt-3 text-sm font-semibold text-ink">{formatNairaCompact(v.priceFrom)} – {formatNairaCompact(v.priceTo)}</p>
-                  </div>
-                </Link>
+                <VendorCard vendor={v} to={`/vendors/${v.id}`} />
               </li>
             )}
           </ul>
@@ -74,8 +64,8 @@ export function FeatureVendors() {
         <div className="container grid gap-8 py-16 lg:grid-cols-2 lg:items-center">
           <h2 className="text-3xl font-bold text-ink sm:text-4xl">Are you a vendor?</h2>
           <div>
-            <p className="text-ink/80">Vendor accounts with service listings, request inboxes and payment tracking are on our roadmap. In this prototype, organisers can record any vendor manually — no vendor account required.</p>
-            <Link to="/about" className={cx(btn.base, btn.ink, btn.md, 'mt-5')}>See our roadmap</Link>
+            <p className="text-ink/80">Vendor accounts with service listings, request inboxes and payment tracking are coming. Until then, organisers can record any vendor manually — no vendor account required.</p>
+            <Link to="/vendors" className={cx(btn.base, btn.ink, btn.md, 'mt-5')}>Browse the directory</Link>
           </div>
         </div>
       </section>

@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { ArrowRight, Menu } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 import { Logo } from '../brand/Logo';
 import { Button } from '../ui/Button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../ui/Sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '../ui/Sheet';
+import { useCloseOnNavigate } from '../../hooks/useCloseOnNavigate';
 import { useAuth } from '../../contexts/AuthContext';
 import { btn, cx } from '../../utils/styles';
 
 const LINKS = [
-{ to: '/#product', label: 'Product' },
 { to: '/#how-it-works', label: 'How it works' },
 { to: '/features/planning', label: 'For planners' },
 { to: '/features/vendors', label: 'For vendors' },
-{ to: '/#use-cases', label: 'Use cases' },
+{ to: '/manifesto', label: 'Manifesto' },
 { to: '/explore', label: 'Explore events' }];
 
 
@@ -21,6 +21,8 @@ export function PublicNav() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const primaryTo = user ? '/app/events/new' : '/signup';
+  const close = useCallback(() => setOpen(false), []);
+  useCloseOnNavigate(open, close);
 
   return (
     <header className="on-dark sticky top-0 z-40 w-full border-b border-white/10 bg-ink/95 backdrop-blur supports-[backdrop-filter]:bg-ink/85">
@@ -62,13 +64,21 @@ export function PublicNav() {
       </nav>
 
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="right" className="w-[88vw] max-w-sm border-l-2 border-ink bg-ink p-0 text-paper">
-          <SheetHeader className="border-b border-white/10 p-5 text-left">
+        <SheetContent
+          side="right"
+          showCloseButton={false}
+          className="on-dark !inset-y-2 !right-2 !h-auto flex w-[calc(100vw-1rem)] max-w-sm flex-col gap-0 overflow-hidden rounded-[28px] border border-white/10 !bg-ink p-0 !text-paper">
+          
+          <SheetHeader className="flex flex-row items-center justify-between space-y-0 border-b border-white/10 px-5 py-4 text-left">
             <SheetTitle className="text-paper">
               <Logo tone="light" />
             </SheetTitle>
+            <SheetDescription className="sr-only">Site navigation</SheetDescription>
+            <button type="button" onClick={close} className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-paper transition hover:bg-white/20" aria-label="Close menu">
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
           </SheetHeader>
-          <ul className="flex flex-col p-3">
+          <ul className="scroll-thin flex min-h-0 flex-1 flex-col overflow-y-auto p-3">
             {LINKS.map((l) =>
             <li key={l.to}>
                 <button
@@ -77,7 +87,7 @@ export function PublicNav() {
                   setOpen(false);
                   navigate(l.to);
                 }}
-                className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left font-display text-lg font-medium text-paper hover:bg-white/5">
+                className="flex w-full items-center justify-between rounded-2xl px-4 py-3.5 text-left font-display text-lg font-medium !text-paper transition hover:bg-white/[0.07] active:bg-white/10">
                 
                   {l.label}
                   <ArrowRight className="h-4 w-4 text-paper/50" aria-hidden="true" />
@@ -85,7 +95,7 @@ export function PublicNav() {
               </li>
             )}
           </ul>
-          <div className="mt-auto flex flex-col gap-2 border-t border-white/10 p-5">
+          <div className="flex shrink-0 flex-col gap-2 border-t border-white/10 p-5">
             <Button type="button" onClick={() => {setOpen(false);navigate(primaryTo);}} className={cx(btn.base, btn.lime, btn.lg)}>
               Create an event
             </Button>

@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { CalendarSearch, Plus, Search } from 'lucide-react';
+import { CalendarSearch, Plus } from 'lucide-react';
 import { useDb } from '../../contexts/DataContext';
 import { EventCard } from '../../components/events/EventCard';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { isPast } from '../../utils/dates';
 import type { EventRecord } from '../../types/domain';
-import { btn, cx, inputClass } from '../../utils/styles';
+import { btn, cx } from '../../utils/styles';
 
 const TABS = [
 { id: 'upcoming', label: 'Upcoming' },
@@ -61,13 +61,14 @@ export function Events() {
             </button>
           )}
         </div>
-        <div className="relative w-full lg:w-80">
-          <label htmlFor="events-q" className="sr-only">Search events</label>
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-smoke" aria-hidden="true" />
-          <input id="events-q" value={q} onChange={(e) => update({ q: e.target.value })} placeholder="Search by name, venue or city" className={cx(inputClass, 'pl-9')} />
-        </div>
+
       </div>
-      {q && <p className="text-sm text-smoke" role="status">{list.length} result{list.length === 1 ? '' : 's'} for “{q}” across all events</p>}
+      {q &&
+      <p className="text-sm text-smoke" role="status">
+          {list.length} result{list.length === 1 ? '' : 's'} for “{q}” across all events
+          <button type="button" onClick={() => update({ q: '' })} className="ml-2 font-medium text-ink underline-offset-4 hover:underline">Clear</button>
+        </p>
+      }
       {list.length ?
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{list.map((e) => <EventCard key={e.id} event={e} />)}</div> :
 

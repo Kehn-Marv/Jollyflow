@@ -25,7 +25,7 @@ export function EventPickerDialog({ open, onOpenChange, title, events, onPick }:
             {events.map((e) =>
           <li key={e.id}>
                 <button type="button" onClick={() => onPick(e)} className="flex w-full items-center gap-3 rounded-xl p-2 text-left transition hover:bg-sand">
-                  <img src={e.coverUrl} alt="" className="h-11 w-11 shrink-0 rounded-lg object-cover" />
+                  <img src={e.coverUrl} alt="" loading="lazy" decoding="async" className="h-11 w-11 shrink-0 rounded-lg bg-sand object-cover" />
                   <span className="min-w-0 flex-1">
                     <span className="block truncate font-semibold text-ink">{e.title}</span>
                     <span className="block text-xs text-smoke">{fmtDate(e.startsAt)} · {e.city}</span>

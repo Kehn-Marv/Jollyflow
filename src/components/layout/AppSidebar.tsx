@@ -1,12 +1,11 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { CalendarDays, Home, LogOut, Plus, Settings, Store } from 'lucide-react';
+import { CalendarDays, Home, LogOut, Settings, Store } from 'lucide-react';
 import { Logo } from '../brand/Logo';
-import { DemoTag } from '../ui/DemoTag';
 import { useAuth } from '../../contexts/AuthContext';
 import { useDb } from '../../contexts/DataContext';
 import { isPast } from '../../utils/dates';
-import { btn, cx } from '../../utils/styles';
+import { cx } from '../../utils/styles';
 
 const NAV = [
 { to: '/app', label: 'Dashboard', icon: Home, end: true },
@@ -32,19 +31,7 @@ export function AppSidebar({ onNavigate }: {onNavigate?: () => void;}) {
       <div className="flex h-16 items-center px-5">
         <NavLink to="/" onClick={onNavigate} aria-label="JolliFlow home"><Logo tone="light" /></NavLink>
       </div>
-      <div className="px-3">
-        <button
-          type="button"
-          onClick={() => {
-            onNavigate?.();
-            navigate('/app/events/new');
-          }}
-          className={cx(btn.base, btn.lime, btn.md, 'w-full')}>
-          
-          <Plus className="h-4 w-4" aria-hidden="true" /> Create event
-        </button>
-      </div>
-      <nav className="mt-5 px-3" aria-label="Workspace">
+      <nav className="mt-2 px-3" aria-label="Workspace">
         <ul className="space-y-1">
           {NAV.map(({ to, label, icon: Icon, end }) =>
           <li key={to}>
@@ -61,7 +48,7 @@ export function AppSidebar({ onNavigate }: {onNavigate?: () => void;}) {
           {upcoming.map((e) =>
           <li key={e.id}>
               <NavLink to={`/app/events/${e.id}`} onClick={onNavigate} className={({ isActive }) => cx('flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm transition', isActive ? 'bg-white/10 text-paper' : 'text-paper/65 hover:bg-white/[0.06] hover:text-paper')}>
-                <img src={e.coverUrl} alt="" className="h-6 w-6 shrink-0 rounded-md object-cover" />
+                <img src={e.coverUrl} alt="" loading="lazy" decoding="async" className="h-6 w-6 shrink-0 rounded-md bg-white/10 object-cover" />
                 <span className="truncate">{e.title}</span>
               </NavLink>
             </li>
@@ -75,7 +62,6 @@ export function AppSidebar({ onNavigate }: {onNavigate?: () => void;}) {
           </span>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">{user?.name}</p>
-            {user?.isDemo ? <DemoTag tone="dark">Demo account</DemoTag> : <p className="truncate text-xs text-paper/50">{user?.email}</p>}
           </div>
           <button
             type="button"

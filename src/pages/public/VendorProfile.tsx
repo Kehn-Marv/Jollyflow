@@ -32,7 +32,7 @@ export function VendorProfile({ inApp = false }: {inApp?: boolean;}) {
       <Link to={inApp ? '/app/vendors' : '/vendors'} className="text-sm font-semibold text-smoke hover:text-ink">← All vendors</Link>
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <div>
-          <div className="grid grid-cols-3 gap-2">{vendor.portfolio.map((p, i) => <img key={p + i} src={p} alt={`${vendor.name} portfolio ${i + 1}`} className={cx('w-full rounded-xl object-cover', i === 0 ? 'col-span-3 aspect-[2/1]' : 'aspect-square')} />)}</div>
+          <div className="grid grid-cols-3 gap-2">{vendor.portfolio.map((p, i) => <img key={p + i} src={p} alt={`${vendor.name} portfolio ${i + 1}`} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" className={cx('w-full rounded-xl object-cover', i === 0 ? 'col-span-3 aspect-[2/1]' : 'aspect-square')} />)}</div>
           <p className="mt-5 text-xs font-semibold text-coral">{VENDOR_CATEGORY_LABELS[vendor.category]}</p>
           <h1 className="text-3xl font-bold text-ink sm:text-4xl">{vendor.name}</h1>
           <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-smoke"><span className="flex items-center gap-1"><MapPin className="h-4 w-4" aria-hidden="true" />{vendor.serviceAreas.join(', ')}</span><span className="flex items-center gap-1"><Clock className="h-4 w-4" aria-hidden="true" />{vendor.responseTime}</span><DemoTag>Sample — not verified</DemoTag></div>

@@ -1,16 +1,12 @@
 import React from 'react';
 import { Quote } from 'lucide-react';
 import { testimonials } from '../../data/marketing';
-import { DemoTag } from '../ui/DemoTag';
 
 export function TestimonialsSection() {
   return (
     <section className="border-t-2 border-ink bg-lime" aria-labelledby="voices-title">
       <div className="container py-20 lg:py-24">
-        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-          <h2 id="voices-title" className="text-4xl font-bold leading-[1.02] text-ink sm:text-5xl">What we’re building for.</h2>
-          <DemoTag>Illustrative personas — not real customers</DemoTag>
-        </div>
+        <h2 id="voices-title" className="text-4xl font-bold leading-[1.02] text-ink sm:text-5xl">What we’re building for.</h2>
         <ul className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {testimonials.map((t) =>
           <li key={t.name} className="flex flex-col rounded-[1.4rem] border-2 border-ink bg-white p-5 shadow-pop">

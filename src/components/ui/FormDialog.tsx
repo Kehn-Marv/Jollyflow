@@ -20,7 +20,7 @@ interface FormDialogProps {
 export function FormDialog({ open, onOpenChange, title, description, submitLabel, pending, onSubmit, destructive, wide, children }: FormDialogProps) {
   return (
     <Dialog open={open} onOpenChange={(o) => !pending && onOpenChange(o)}>
-      <DialogContent className={cx('max-h-[92vh] overflow-y-auto rounded-2xl border-2 border-ink bg-white p-0', wide ? 'sm:max-w-2xl' : 'sm:max-w-lg')}>
+      <DialogContent className={cx('scroll-thin max-h-[92dvh] overflow-y-auto overscroll-contain rounded-2xl border-2 border-ink bg-white p-0', wide ? 'sm:max-w-2xl' : 'sm:max-w-lg')}>
         <form
           noValidate
           onSubmit={(e) => {

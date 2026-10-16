@@ -16,7 +16,7 @@ export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
         <Link to="/" aria-label="JolliFlow home" className="self-start"><Logo tone="light" /></Link>
         <div className="relative mt-10 flex-1">
           <div className="absolute inset-0 overflow-hidden rounded-[2rem] border-2 border-paper/10">
-            <img src={images.birthday} alt="" className="h-full w-full object-cover opacity-80" />
+            <img src={images.birthday} alt="" decoding="async" className="h-full w-full object-cover opacity-80" />
           </div>
           <div className="absolute bottom-6 left-6 right-6 rounded-2xl border-2 border-ink bg-lime p-5 text-ink shadow-pop">
             <p className="font-display text-2xl font-bold leading-tight">Every event. One clear plan.</p>

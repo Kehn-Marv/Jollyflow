@@ -10,7 +10,7 @@ import { eventTicketStats } from '../../utils/tickets';
 import { dueLabel, isPast } from '../../utils/dates';
 import { BOOKING_STATUS_LABELS } from '../../utils/events';
 import { InsightCard } from '../insights/InsightCard';
-import { RsvpRing } from '../guests/RsvpRing';
+import { RSVP_COLORS, RsvpRing } from '../guests/RsvpRing';
 import { ActivityFeed } from '../activity/ActivityFeed';
 import { ProgressBar } from '../ui/ProgressBar';
 import { BOOKING_TONE, StatusPill } from '../ui/StatusPill';
@@ -47,7 +47,7 @@ export function OverviewTab({ event }: {event: EventRecord;}) {
       <div className="space-y-6 lg:col-span-2">
         <Panel title="Next steps">
           {insights.length ?
-          <ul className="-mx-3 -my-2 divide-y divide-line">{insights.slice(0, 4).map((i) => <InsightCard key={i.id} insight={i} showEvent={false} />)}</ul> :
+          <ul className="space-y-1.5">{insights.slice(0, 4).map((i) => <InsightCard key={i.id} insight={i} showEvent={false} />)}</ul> :
 
           <p className="text-sm text-smoke">Nothing pressing. Tasks, bookings and RSVPs look healthy.</p>
           }
@@ -59,12 +59,12 @@ export function OverviewTab({ event }: {event: EventRecord;}) {
             <span className="font-medium text-ink">{tasks.length ? Math.round(done / tasks.length * 100) : 0}%</span>
           </div>
           <ProgressBar value={done} max={tasks.length || 1} label="Task completion" size="sm" className="mt-3" />
-          <ul className="mt-5 divide-y divide-line">
+          <ul className="mt-4 space-y-0.5">
             {nextTasks.map((t) => {
               const overdue = t.dueDate && isPast(t.dueDate);
               return (
                 <li key={t.id}>
-                  <Link to={`${base}/plan?task=${t.id}`} className="flex items-center gap-3 rounded-lg py-3 hover:bg-paper">
+                  <Link to={`${base}/plan?task=${t.id}`} className="-mx-3 flex items-center gap-3 rounded-2xl px-3 py-3 transition-colors hover:bg-paper">
                     <Circle className="h-4 w-4 shrink-0 text-line" aria-hidden="true" />
                     <span className="min-w-0 flex-1 truncate text-sm text-ink">{t.title}</span>
                     {t.dueDate && <span className={cx('shrink-0 text-xs', overdue ? 'font-medium text-danger' : 'text-smoke')}>{overdue ? 'Overdue' : dueLabel(t.dueDate)}</span>}
@@ -79,12 +79,12 @@ export function OverviewTab({ event }: {event: EventRecord;}) {
         {event.features.vendors &&
         <Panel title="Vendors" to={`${base}/vendors`} linkLabel="All vendors">
             {bookings.length ?
-          <ul className="divide-y divide-line">
+          <ul className="space-y-0.5">
                 {bookings.map((b) => {
               const v = db.vendors.find((x) => x.id === b.vendorId);
               return (
                 <li key={b.id}>
-                      <Link to={`${base}/vendors?booking=${b.id}`} className="flex items-center gap-3 py-3 hover:bg-paper">
+                      <Link to={`${base}/vendors?booking=${b.id}`} className="-mx-3 flex items-center gap-4 rounded-2xl px-3 py-3 transition-colors hover:bg-paper">
                         <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium text-ink">{v?.name}</span><span className="text-xs text-smoke">{b.serviceName}</span></span>
                         <StatusPill tone={BOOKING_TONE[b.status]}>{BOOKING_STATUS_LABELS[b.status]}</StatusPill>
                       </Link>
@@ -100,13 +100,31 @@ export function OverviewTab({ event }: {event: EventRecord;}) {
       <div className="space-y-6">
         {event.features.guests &&
         <Panel title="Guests" to={`${base}/guests`} linkLabel="Guest list">
-            <div className="flex items-center gap-5">
-              <RsvpRing summary={rsvp} size={104} />
-              <dl className="space-y-1.5 text-sm">
-                <div className="flex gap-2"><dt className="text-smoke">Attending</dt><dd className="font-medium">{rsvp.attending}</dd></div>
-                <div className="flex gap-2"><dt className="text-smoke">Pending</dt><dd className="font-medium">{rsvp.pending}</dd></div>
-                <div className="flex gap-2"><dt className="text-smoke">Declined</dt><dd className="font-medium">{rsvp.declined}</dd></div>
-                {event.capacity && <div className="flex gap-2"><dt className="text-smoke">Capacity</dt><dd className="font-medium">{event.capacity}</dd></div>}
+            <div className="flex items-center gap-6">
+              <RsvpRing summary={rsvp} size={112} />
+              <dl className="grid min-w-0 flex-1 grid-cols-[1fr_auto] items-center gap-x-4 gap-y-2.5 text-sm">
+                {[
+              { label: 'Attending', value: rsvp.attending, color: RSVP_COLORS.attending },
+              { label: 'Pending', value: rsvp.pending, color: RSVP_COLORS.pending },
+              { label: 'Declined', value: rsvp.declined, color: RSVP_COLORS.declined }].
+              map((row) =>
+              <React.Fragment key={row.label}>
+                    <dt className="flex items-center gap-2 text-smoke">
+                      <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: row.color }} aria-hidden="true" />
+                      {row.label}
+                    </dt>
+                    <dd className="text-right font-medium tabular-nums text-ink">{row.value}</dd>
+                  </React.Fragment>
+              )}
+                {event.capacity &&
+              <>
+                    <dt className="flex items-center gap-2 border-t border-line pt-2.5 text-smoke">
+                      <span className="h-2 w-2 shrink-0" aria-hidden="true" />
+                      Capacity
+                    </dt>
+                    <dd className="border-t border-line pt-2.5 text-right font-medium tabular-nums text-ink">{event.capacity}</dd>
+                  </>
+              }
               </dl>
             </div>
           </Panel>

@@ -54,7 +54,7 @@ export function StepDetails({ draft, update, errors }: StepProps) {
             return (
               <label key={c.url} className={cx('relative cursor-pointer overflow-hidden rounded-xl border-2 transition focus-within:ring-2 focus-within:ring-ink', on ? 'border-ink' : 'border-transparent')}>
                 <input type="radio" name="cover" value={c.url} checked={on} onChange={() => update({ coverUrl: c.url })} className="sr-only" />
-                <img src={c.url} alt={c.label} className="aspect-square w-full object-cover" />
+                <img src={c.url} alt={c.label} loading="lazy" decoding="async" className="aspect-square w-full bg-sand object-cover" />
                 {on && <span className="absolute right-1 top-1 grid h-5 w-5 place-items-center rounded-full bg-lime"><Check className="h-3 w-3" aria-hidden="true" /></span>}
               </label>);
 

@@ -1,79 +1,89 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { AlertOctagon, CalendarCheck, Wallet } from 'lucide-react';
 import { useDb } from '../../contexts/DataContext';
 import { images } from '../../data/images';
 import { computeInsights } from '../../utils/insights';
 import { summariseEvent } from '../../utils/finance';
 import { rsvpSummary } from '../../utils/rsvp';
-import { formatNaira, formatNairaCompact } from '../../utils/money';
+import { daysUntil, fmtDate } from '../../utils/dates';
+import { formatNairaCompact } from '../../utils/money';
+import { SmartImage } from '../ui/SmartImage';
 
-/** Live product fragments floating over the hero photo — real data from the demo wedding. */
+/** A real slice of the demo wedding workspace, framed like a window rising from the fold. */
 export function HeroComposition() {
   const db = useDb();
   const reduce = useReducedMotion();
   const wedding = db.events.find((e) => e.id === 'e_wedding') ?? db.events.find((e) => e.managed);
-  const insight = wedding ? computeInsights(db, new Date(), wedding.id)[0] : undefined;
-  const fin = wedding ? summariseEvent(db, wedding.id) : null;
-  const rsvp = wedding ? rsvpSummary(db.guests.filter((g) => g.eventId === wedding.id)) : null;
+  if (!wedding) return null;
 
-  const float = (delay: number) =>
-  reduce ? {} : { initial: { opacity: 0, y: 18 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.5, ease: 'easeOut' as const } };
+  const insight = computeInsights(db, new Date(), wedding.id)[0];
+  const fin = summariseEvent(db, wedding.id);
+  const rsvp = rsvpSummary(db.guests.filter((g) => g.eventId === wedding.id));
+  const days = Math.max(0, daysUntil(wedding.startsAt));
+  const tasks = db.tasks.filter((t) => t.eventId === wedding.id);
+  const done = tasks.filter((t) => t.status === 'done').length;
+  const paidPct = fin.paid / Math.max(fin.budget, 1) * 100;
+  const committedPct = Math.max(0, fin.committed - fin.paid) / Math.max(fin.budget, 1) * 100;
 
   return (
-    <div className="relative mx-auto h-[480px] w-full max-w-[560px] sm:h-[560px]">
-      <div className="absolute inset-y-0 right-0 w-[86%] rounded-[2rem] border-2 border-paper/10 bg-coral" aria-hidden="true" />
-      <div className="absolute bottom-6 right-5 top-6 w-[74%] overflow-hidden rounded-[1.6rem] border-2 border-ink">
-        <img src={images.hero} alt="A guest dancing under string lights at a Lagos celebration" className="h-full w-full object-cover" />
-      </div>
-
-      {insight &&
-      <motion.div {...float(0.25)} className="absolute left-0 top-8 w-[78%] max-w-[300px] rounded-2xl border-2 border-ink bg-white p-3.5 text-ink shadow-pop sm:top-12">
-          <div className="flex items-start gap-2.5">
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border-2 border-ink bg-coral">
-              <AlertOctagon className="h-4 w-4" aria-hidden="true" />
-            </span>
-            <div className="min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-coral">Needs attention</p>
-              <p className="text-sm font-semibold leading-snug">{insight.title}</p>
-              <p className="mt-0.5 line-clamp-2 text-xs text-smoke">{insight.detail}</p>
+    <motion.div
+      initial={reduce ? false : { opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.25, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+      className="mt-16 w-full max-w-5xl sm:mt-20">
+      
+      <div className="rounded-t-[34px] border border-b-0 border-white/10 bg-white/[0.04] p-2 pb-0 sm:p-3 sm:pb-0">
+        <div className="grid overflow-hidden rounded-t-[26px] bg-paper text-left text-ink md:grid-cols-[1.35fr_1fr]">
+          {/* Event cover */}
+          <div className="relative min-h-[260px] md:min-h-[420px]">
+            <SmartImage priority src={images.hero} alt="A guest dancing under string lights at a Lagos celebration" wrapperClassName="absolute inset-0" />
+            <div className="absolute inset-x-0 bottom-0 bg-ink/55 p-5 backdrop-blur-md sm:p-6">
+              <p className="text-xs text-white/65">{fmtDate(wedding.startsAt)} · {wedding.venue}</p>
+              <p className="mt-1 font-display text-xl font-semibold text-white sm:text-2xl">{wedding.title}</p>
             </div>
+            <span className="absolute right-4 top-4 rounded-full bg-lime px-3 py-1 text-xs font-semibold tabular-nums text-ink">
+              {days === 0 ? 'Today' : `${days} days to go`}
+            </span>
           </div>
-        </motion.div>
-      }
 
-      {rsvp &&
-      <motion.div {...float(0.45)} className="absolute bottom-20 left-2 w-[56%] max-w-[230px] rounded-2xl border-2 border-ink bg-sky p-3.5 text-ink shadow-pop sm:bottom-24">
-          <p className="flex items-center gap-1.5 text-xs font-semibold"><CalendarCheck className="h-3.5 w-3.5" aria-hidden="true" /> RSVPs</p>
-          <p className="mt-1 font-display text-3xl font-bold leading-none">{rsvp.attending}<span className="text-base font-semibold"> attending</span></p>
-          <div className="mt-2 flex h-2 overflow-hidden rounded-full bg-white/60" aria-hidden="true">
-            <div className="bg-forest" style={{ width: `${rsvp.attending / Math.max(rsvp.total, 1) * 100}%` }} />
-            <div className="bg-coral" style={{ width: `${rsvp.pending / Math.max(rsvp.total, 1) * 100}%` }} />
-          </div>
-          <p className="mt-1.5 text-xs">{rsvp.pending} pending · {rsvp.declined} declined</p>
-        </motion.div>
-      }
-
-      {fin &&
-      <motion.div {...float(0.65)} className="absolute bottom-2 right-0 w-[58%] max-w-[250px] rounded-2xl border-2 border-ink bg-lime p-3.5 text-ink shadow-pop">
-          <p className="flex items-center gap-1.5 text-xs font-semibold"><Wallet className="h-3.5 w-3.5" aria-hidden="true" /> Wedding budget</p>
-          <p className="mt-1 font-display text-2xl font-bold leading-none">{formatNairaCompact(fin.budget)}</p>
-          <div className="mt-2 flex h-2 overflow-hidden rounded-full bg-white/70" aria-hidden="true">
-            <div className="bg-ink" style={{ width: `${fin.paid / Math.max(fin.budget, 1) * 100}%` }} />
-            <div className="bg-coral" style={{ width: `${Math.max(0, fin.committed - fin.paid) / Math.max(fin.budget, 1) * 100}%` }} />
-          </div>
-          <p className="mt-1.5 text-xs">{formatNaira(fin.paid)} paid · {formatNairaCompact(fin.committed)} committed</p>
-        </motion.div>
-      }
-
-      <div className="absolute right-2 top-0 grid h-20 w-20 rotate-12 place-items-center rounded-full border-2 border-ink bg-bloom text-center font-display text-[11px] font-bold leading-tight text-ink shadow-pop-sm sm:right-6" aria-hidden="true">
-        every
-        <br />
-        naira
-        <br />
-        tracked
+          {/* Live state */}
+          <dl className="divide-y divide-line">
+            <div className="p-5 sm:p-6">
+              <dt className="text-xs text-smoke">Guests</dt>
+              <dd className="mt-1 flex items-baseline gap-2">
+                <span className="font-display text-3xl font-semibold tabular-nums">{rsvp.attending}</span>
+                <span className="text-sm text-smoke">attending of {rsvp.total} invited</span>
+              </dd>
+              <div className="mt-3 flex h-1.5 overflow-hidden rounded-full bg-sand" aria-hidden="true">
+                <div className="bg-ink" style={{ width: `${rsvp.attending / Math.max(rsvp.total, 1) * 100}%` }} />
+                <div className="bg-ink/25" style={{ width: `${rsvp.pending / Math.max(rsvp.total, 1) * 100}%` }} />
+              </div>
+            </div>
+            <div className="p-5 sm:p-6">
+              <dt className="text-xs text-smoke">Budget</dt>
+              <dd className="mt-1 flex items-baseline gap-2">
+                <span className="font-display text-3xl font-semibold tabular-nums">{formatNairaCompact(fin.paid)}</span>
+                <span className="text-sm text-smoke">paid of {formatNairaCompact(fin.budget)}</span>
+              </dd>
+              <div className="mt-3 flex h-1.5 overflow-hidden rounded-full bg-sand" aria-hidden="true">
+                <div className="bg-ink" style={{ width: `${paidPct}%` }} />
+                <div className="bg-coral" style={{ width: `${committedPct}%` }} />
+              </div>
+            </div>
+            <div className="p-5 sm:p-6">
+              <dt className="flex items-center justify-between text-xs text-smoke">
+                <span>Next up</span>
+                <span className="tabular-nums">{done}/{tasks.length} tasks done</span>
+              </dt>
+              <dd className="mt-2 flex items-start gap-2.5">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-coral" aria-hidden="true" />
+                <span className="text-sm font-medium leading-snug">{insight ? insight.title : 'Everything is on track'}</span>
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
-      <p className="sr-only">Sample data from the demo wedding workspace.</p>
-    </div>);
+      <p className="sr-only">Live sample data from the demo wedding workspace.</p>
+    </motion.div>);
 
 }

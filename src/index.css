@@ -82,8 +82,47 @@
   background-image: radial-gradient(rgba(246, 245, 239, 0.12) 1px, transparent 1.2px);
   background-size: 18px 18px;
 }
+/* Lock the page behind any open modal, drawer or sheet (Radix marks <body> while open).
+   Locking <html> too removes the second page scrollbar next to a panel. */
+html:has(body[data-scroll-locked]),
+body[data-scroll-locked] {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+/* Frosted modal backdrop — one consistent treatment for every dialog, sheet and drawer.
+   Pinned to the full viewport (with a hairline bleed) so no strip at the top escapes the blur. */
+[data-slot="dialog-overlay"],
+[data-slot="sheet-overlay"],
+[data-slot="alert-dialog-overlay"],
+[data-slot="drawer-overlay"],
+body > .fixed.inset-0[data-state] {
+  position: fixed !important;
+  inset: -2px !important;
+  background-color: rgba(18, 19, 16, 0.42) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(135%) brightness(0.92);
+  backdrop-filter: blur(22px) saturate(135%) brightness(0.92);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-slot="dialog-overlay"],
+  [data-slot="sheet-overlay"],
+  [data-slot="alert-dialog-overlay"],
+  [data-slot="drawer-overlay"],
+  body > .fixed.inset-0[data-state] { background-color: rgba(18, 19, 16, 0.72) !important; }
+}
+/* Slim, quiet scrollbar for scroll areas inside panels and dialogs */
+.scroll-thin { scrollbar-width: thin; scrollbar-color: rgba(16, 17, 15, 0.18) transparent; }
+.scroll-thin::-webkit-scrollbar { width: 6px; }
+.scroll-thin::-webkit-scrollbar-track { background: transparent; }
+.scroll-thin::-webkit-scrollbar-thumb { background: rgba(16, 17, 15, 0.18); border-radius: 999px; }
+.scroll-thin::-webkit-scrollbar-thumb:hover { background: rgba(16, 17, 15, 0.32); }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
+@keyframes loadbar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+/* Skip rendering work for off-screen marketing sections until they scroll near */
+.cv-auto { content-visibility: auto; contain-intrinsic-size: auto 800px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

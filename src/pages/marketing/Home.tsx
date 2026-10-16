@@ -38,11 +38,12 @@ export function Home() {
           cta={{ to: '/features/gifting', label: 'See gifting features' }} />
         
       </div>
-      <IntelligenceSection />
-      <ProductPreviewSection />
-      <UseCasesSection />
-      <TestimonialsSection />
-      <FaqSection />
+      {/* Below-the-fold sections skip layout/paint until scrolled near — faster first load on slow devices */}
+      <div className="cv-auto"><IntelligenceSection /></div>
+      <div className="cv-auto"><ProductPreviewSection /></div>
+      <div className="cv-auto"><UseCasesSection /></div>
+      <div className="cv-auto"><TestimonialsSection /></div>
+      <div className="cv-auto"><FaqSection /></div>
       <ClosingCta />
     </>);
 

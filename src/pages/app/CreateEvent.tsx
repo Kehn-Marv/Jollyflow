@@ -143,7 +143,6 @@ export function CreateEvent() {
         <Button type="button" onClick={() => {setErrors({});goTo(Math.max(0, step - 1));}} disabled={step === 0 || submitting} className={cx(btn.base, btn.ghost, btn.md)}>
           <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Back
         </Button>
-        <p className="hidden text-xs text-smoke sm:block">Draft saved on this device</p>
         {isLast ?
         <Button type="button" onClick={create} disabled={submitting} aria-busy={submitting} className={cx(btn.base, btn.lime, btn.md)}>
             {submitting && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}

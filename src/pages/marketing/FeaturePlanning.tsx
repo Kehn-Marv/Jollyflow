@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Users } from 'lucide-react';
-import { PageHero } from '../../components/marketing/PageHero';
-import { TaskTimelineVisual } from '../../components/home/visuals/TaskTimelineVisual';
+import { FeatureHero } from '../../components/marketing/FeatureHero';
+import { PlanHeroVisual } from '../../components/marketing/visuals/PlanHeroVisual';
 import { InsightCard } from '../../components/insights/InsightCard';
 import { useDb } from '../../contexts/DataContext';
 import { computeInsights } from '../../utils/insights';
@@ -25,12 +25,12 @@ export function FeaturePlanning() {
 
   return (
     <>
-      <PageHero
-        eyebrow="Planning & collaboration"
-        title={<>One plan the whole team can see.</>}
-        body="Assign tasks to co-hosts, family members and your crew. Due dates, priorities and owners keep everyone moving in the same direction."
+      <FeatureHero
+        kicker="For planners"
+        title={<>Everyone knows <span className="text-lime">what’s next.</span></>}
+        body="One shared plan for co-hosts, family and crew — every task with an owner and a date, so nothing waits on a phone call."
         actions={<><Link to="/signup" className={cx(btn.base, btn.lime, btn.lg)}>Start a plan</Link><Link to="/signin" className={cx(btn.base, btn.onDark, btn.lg)}>Sign in</Link></>}
-        visual={<TaskTimelineVisual />} />
+        visual={<PlanHeroVisual />} />
       
 
       <section className="bg-paper">

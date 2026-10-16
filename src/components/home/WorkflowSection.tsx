@@ -23,7 +23,7 @@ export function WorkflowSection() {
             <br />
             to the event.
           </h2>
-          <p className="mt-4 text-lg text-ink/75">A guest RSVP updates the headcount. A vendor payment updates the budget. A ticket sale updates the gate list.</p>
+          <p className="mt-4 text-lg text-ink/75">Every RSVP, vendor payment, and ticket sale syncs in real time - so you always know where your event stands.</p>
         </div>
 
         <div className="mt-14 grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">

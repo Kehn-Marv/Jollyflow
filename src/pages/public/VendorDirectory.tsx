@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { MapPin, Search, Store } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
+import { Search, Store } from 'lucide-react';
 import { useDb } from '../../contexts/DataContext';
 import { VENDOR_CATEGORY_LABELS } from '../../utils/events';
-import { formatNairaCompact } from '../../utils/money';
+import { VendorCard } from '../../components/vendors/VendorCard';
 import type { VendorCategory } from '../../types/domain';
 import { NativeSelect } from '../../components/ui/FormField';
 import { DemoTag } from '../../components/ui/DemoTag';
@@ -37,15 +37,7 @@ export function VendorDirectory({ inApp = false }: {inApp?: boolean;}) {
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((v) =>
         <li key={v.id}>
-              <Link to={`${base}/${v.id}${eventQ ? `?event=${eventQ}` : ''}`} className="group block overflow-hidden rounded-[1.4rem] border border-line bg-white transition hover:border-ink hover:shadow-pop">
-                <img src={v.portfolio[0]} alt="" loading="lazy" className="aspect-[4/3] w-full object-cover" />
-                <div className="p-4">
-                  <p className="text-xs font-semibold text-coral">{VENDOR_CATEGORY_LABELS[v.category]}</p>
-                  <h2 className="font-display text-lg font-semibold text-ink">{v.name}</h2>
-                  <p className="text-sm text-smoke">{v.tagline}</p>
-                  <div className="mt-3 flex items-center justify-between text-sm"><span className="flex items-center gap-1 text-smoke"><MapPin className="h-3.5 w-3.5" aria-hidden="true" />{v.city}</span><span className="font-semibold">{formatNairaCompact(v.priceFrom)}+</span></div>
-                </div>
-              </Link>
+              <VendorCard vendor={v} to={`${base}/${v.id}${eventQ ? `?event=${eventQ}` : ''}`} />
             </li>
         )}
         </ul> :

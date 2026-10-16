@@ -2,6 +2,7 @@ import React from 'react';
 import { Loader2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './Dialog';
 import { Button } from './Button';
+import { BodyPortal } from './BodyPortal';
 import { btn, cx } from '../../utils/styles';
 
 interface FormDialogProps {
@@ -19,15 +20,16 @@ interface FormDialogProps {
 
 export function FormDialog({ open, onOpenChange, title, description, submitLabel, pending, onSubmit, destructive, wide, children }: FormDialogProps) {
   return (
+    <BodyPortal>
     <Dialog open={open} onOpenChange={(o) => !pending && onOpenChange(o)}>
       <DialogContent className={cx('scroll-thin max-h-[92dvh] overflow-y-auto overscroll-contain rounded-2xl border-2 border-ink bg-white p-0', wide ? 'sm:max-w-2xl' : 'sm:max-w-lg')}>
         <form
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!pending) onSubmit();
-          }}>
-          
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!pending) onSubmit();
+            }}>
+            
           <DialogHeader className="border-b border-line px-6 pb-4 pt-6 text-left">
             <DialogTitle className="font-display text-xl font-semibold">{title}</DialogTitle>
             {description && <DialogDescription className="text-smoke">{description}</DialogDescription>}
@@ -44,6 +46,7 @@ export function FormDialog({ open, onOpenChange, title, description, submitLabel
           </div>
         </form>
       </DialogContent>
-    </Dialog>);
+    </Dialog>
+    </BodyPortal>);
 
 }

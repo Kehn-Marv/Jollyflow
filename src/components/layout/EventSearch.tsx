@@ -7,7 +7,15 @@ import { SmartImage } from '../ui/SmartImage';
 import { cx, inputClass } from '../../utils/styles';
 
 /** Live event search: suggestions as you type, Enter shows all matches on the Events page. */
-export function EventSearch() {
+interface EventSearchProps {
+  className?: string;
+  autoFocus?: boolean;
+  /** Called after a search is submitted or a result is picked */
+  onDone?: () => void;
+}
+
+export function EventSearch({ className, autoFocus, onDone }: EventSearchProps) {
+  const inputId = React.useId();
   const db = useDb();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -43,16 +51,19 @@ export function EventSearch() {
     e.preventDefault();
     const pick = open && results[active];
     setOpen(false);
+    onDone?.();
     if (pick && !onEventsPage) return navigate(`/app/events/${pick.id}`);
     navigate(`/app/events${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ''}`);
   }
 
   return (
-    <form ref={wrap} role="search" onSubmit={submit} className="relative hidden max-w-md flex-1 sm:block">
-      <label htmlFor="app-search" className="sr-only">Search events</label>
+    <form ref={wrap} role="search" onSubmit={submit} className={cx('relative w-full max-w-md flex-1', className)}>
+      <label htmlFor={inputId} className="sr-only">Search events</label>
       <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-smoke" aria-hidden="true" />
       <input
-        id="app-search"
+        id={inputId}
+        autoFocus={autoFocus}
+        enterKeyHint="search"
         value={query}
         autoComplete="off"
         role="combobox"
@@ -71,7 +82,7 @@ export function EventSearch() {
           if (e.key === 'Escape') setOpen(false);
         }}
         placeholder="Search events by name or city"
-        className={cx(inputClass, 'h-10 pl-9')} />
+        className={cx(inputClass, 'h-10 pl-9 text-base sm:text-sm')} />
       
       {open && query.trim() && !onEventsPage &&
       <div id="app-search-results" role="listbox" className="absolute inset-x-0 top-full z-30 mt-2 overflow-hidden rounded-2xl border border-line bg-white p-1.5 shadow-[0_16px_40px_-16px_rgba(16,17,15,0.25)]">
@@ -84,7 +95,7 @@ export function EventSearch() {
             role="option"
             aria-selected={i === active}
             onMouseEnter={() => setActive(i)}
-            onClick={() => {setOpen(false);setQuery('');navigate(`/app/events/${e.id}`);}}
+            onClick={() => {setOpen(false);setQuery('');onDone?.();navigate(`/app/events/${e.id}`);}}
             className={cx('flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left', i === active ? 'bg-paper' : '')}>
             
                   <SmartImage src={e.coverUrl} wrapperClassName="h-9 w-9 shrink-0 rounded-lg" />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from './Sheet';
+import { BodyPortal } from './BodyPortal';
 import { cx } from '../../utils/styles';
 
 interface SidePanelProps {
@@ -24,14 +25,15 @@ interface SidePanelProps {
  */
 export function SidePanel({ open, onOpenChange, title, description, eyebrow, toolbar, footer, children, width = 'md' }: SidePanelProps) {
   return (
+    <BodyPortal>
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
-        side="right"
-        className={cx(
-          '!inset-y-2 !right-2 !h-auto flex w-[calc(100vw-1rem)] flex-col gap-0 overflow-hidden rounded-[28px] border border-white/60 !bg-white p-0 !text-ink shadow-[0_32px_80px_-24px_rgba(0,0,0,0.45),0_0_0_1px_rgba(16,17,15,0.04)] sm:!inset-y-3 sm:!right-3',
-          width === 'lg' ? 'sm:max-w-[30rem]' : 'sm:max-w-[26rem]'
-        )}>
-        
+          side="right"
+          className={cx(
+            '!inset-y-2 !right-2 !h-auto flex w-[calc(100vw-1rem)] flex-col gap-0 overflow-hidden rounded-[28px] border border-white/60 !bg-white p-0 !text-ink shadow-[0_32px_80px_-24px_rgba(0,0,0,0.45),0_0_0_1px_rgba(16,17,15,0.04)] sm:!inset-y-3 sm:!right-3',
+            width === 'lg' ? 'sm:max-w-[30rem]' : 'sm:max-w-[26rem]'
+          )}>
+          
         <SheetHeader className="shrink-0 space-y-0 px-6 pb-4 pr-14 pt-6 text-left">
           {eyebrow && <div className="mb-3 flex flex-wrap items-center gap-2">{eyebrow}</div>}
           <SheetTitle className="font-display text-xl font-semibold leading-tight text-ink">{title}</SheetTitle>
@@ -41,6 +43,7 @@ export function SidePanel({ open, onOpenChange, title, description, eyebrow, too
         <div className="scroll-thin min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-line">{children}</div>
         {footer && <div className="shrink-0 border-t border-line bg-white px-6 py-4">{footer}</div>}
       </SheetContent>
-    </Sheet>);
+    </Sheet>
+    </BodyPortal>);
 
 }

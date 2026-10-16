@@ -1,12 +1,13 @@
 import React, { Suspense, useCallback, useState } from 'react';
 import { useCloseOnNavigate } from '../../hooks/useCloseOnNavigate';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Bell, FlaskConical, Menu } from 'lucide-react';
+import { Bell, FlaskConical, Menu, Search, X } from 'lucide-react';
 import { AppSidebar } from './AppSidebar';
 import { EventSearch } from './EventSearch';
 import { RouteFallback } from './RouteFallback';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '../ui/Sheet';
 import { SidePanel } from '../ui/SidePanel';
+import { BodyPortal } from '../ui/BodyPortal';
 import { NotificationFilters, NotificationsList, useNotificationFilter } from '../insights/NotificationsPanel';
 import { Logo } from '../brand/Logo';
 import { useDb } from '../../contexts/DataContext';
@@ -23,6 +24,9 @@ export function AppShell() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
   const [filter, setFilter] = useNotificationFilter();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
+  useCloseOnNavigate(searchOpen, closeSearch, 640);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   const closeBell = useCallback(() => setBellOpen(false), []);
   useCloseOnNavigate(menuOpen, closeMenu);
@@ -50,8 +54,13 @@ export function AppShell() {
               <Menu className="h-5 w-5" aria-hidden="true" />
             </button>
             <Link to="/app" className="lg:hidden" aria-label="Dashboard"><Logo compact /></Link>
-            {showSearch && <EventSearch />}
+            {showSearch && <EventSearch className="hidden sm:block" />}
             <div className="ml-auto flex items-center gap-2">
+              {showSearch &&
+              <button type="button" onClick={() => setSearchOpen((o) => !o)} aria-label={searchOpen ? 'Close search' : 'Search events'} aria-expanded={searchOpen} className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-white hover:border-ink sm:hidden">
+                  {searchOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Search className="h-5 w-5" aria-hidden="true" />}
+                </button>
+              }
               <button type="button" onClick={() => setBellOpen(true)} aria-label={`Notifications, ${insights.length} items need attention`} className="relative grid h-10 w-10 place-items-center rounded-xl border border-line bg-white hover:border-ink">
                 <Bell className="h-5 w-5" aria-hidden="true" />
                 {insights.length > 0 &&
@@ -62,6 +71,11 @@ export function AppShell() {
               </button>
             </div>
           </div>
+          {showSearch && searchOpen &&
+          <div className="border-t border-line px-4 py-3 sm:hidden">
+              <EventSearch autoFocus onDone={closeSearch} />
+            </div>
+          }
         </header>
         <main id="app-main" className="mx-auto w-full max-w-[1320px] px-4 py-6 sm:px-6 lg:py-8">
           <Suspense fallback={<RouteFallback />}>
@@ -70,12 +84,14 @@ export function AppShell() {
         </main>
       </div>
 
+      <BodyPortal>
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
         <SheetContent side="left" className="on-dark w-[86vw] max-w-xs border-0 !bg-ink p-0 !text-paper" showCloseButton={false}>
           <SheetHeader className="sr-only"><SheetTitle>Navigation</SheetTitle><SheetDescription>Workspace navigation</SheetDescription></SheetHeader>
           <AppSidebar onNavigate={() => setMenuOpen(false)} />
         </SheetContent>
       </Sheet>
+      </BodyPortal>
 
       <SidePanel
         open={bellOpen}

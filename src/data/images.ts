@@ -1,4 +1,4 @@
-/** Generated, licence-safe imagery hosted on the Magic Patterns CDN. */
+/** Curated, licence-safe imagery for JolliFlow events and previews. */
 export const images = {
   hero: "/fd1a5eb1-556d-4414-bbbc-761c31c3a1da.jpg",
   wedding: "/07bcbcac-2f7f-4936-ad03-c9f4f6da3f48.jpg",

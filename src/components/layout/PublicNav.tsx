@@ -4,6 +4,7 @@ import { ArrowRight, Menu, X } from 'lucide-react';
 import { Logo } from '../brand/Logo';
 import { Button } from '../ui/Button';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '../ui/Sheet';
+import { BodyPortal } from '../ui/BodyPortal';
 import { useCloseOnNavigate } from '../../hooks/useCloseOnNavigate';
 import { useAuth } from '../../contexts/AuthContext';
 import { btn, cx } from '../../utils/styles';
@@ -63,12 +64,14 @@ export function PublicNav() {
         </div>
       </nav>
 
+      {/* Portalled out of the blurred sticky header — otherwise the drawer is trapped inside its 64px box */}
+      <BodyPortal>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent
-          side="right"
-          showCloseButton={false}
-          className="on-dark !inset-y-2 !right-2 !h-auto flex w-[calc(100vw-1rem)] max-w-sm flex-col gap-0 overflow-hidden rounded-[28px] border border-white/10 !bg-ink p-0 !text-paper">
-          
+            side="right"
+            showCloseButton={false}
+            className="on-dark !inset-y-2 !right-2 !h-auto flex w-[calc(100vw-1rem)] max-w-sm flex-col gap-0 overflow-hidden rounded-[28px] border border-white/10 !bg-ink p-0 !text-paper">
+            
           <SheetHeader className="flex flex-row items-center justify-between space-y-0 border-b border-white/10 px-5 py-4 text-left">
             <SheetTitle className="text-paper">
               <Logo tone="light" />
@@ -80,20 +83,20 @@ export function PublicNav() {
           </SheetHeader>
           <ul className="scroll-thin flex min-h-0 flex-1 flex-col overflow-y-auto p-3">
             {LINKS.map((l) =>
-            <li key={l.to}>
+              <li key={l.to}>
                 <button
-                type="button"
-                onClick={() => {
-                  setOpen(false);
-                  navigate(l.to);
-                }}
-                className="flex w-full items-center justify-between rounded-2xl px-4 py-3.5 text-left font-display text-lg font-medium !text-paper transition hover:bg-white/[0.07] active:bg-white/10">
-                
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    navigate(l.to);
+                  }}
+                  className="flex w-full items-center justify-between rounded-2xl px-4 py-3.5 text-left font-display text-lg font-medium !text-paper transition hover:bg-white/[0.07] active:bg-white/10">
+                  
                   {l.label}
                   <ArrowRight className="h-4 w-4 text-paper/50" aria-hidden="true" />
                 </button>
               </li>
-            )}
+              )}
           </ul>
           <div className="flex shrink-0 flex-col gap-2 border-t border-white/10 p-5">
             <Button type="button" onClick={() => {setOpen(false);navigate(primaryTo);}} className={cx(btn.base, btn.lime, btn.lg)}>
@@ -105,6 +108,7 @@ export function PublicNav() {
           </div>
         </SheetContent>
       </Sheet>
+      </BodyPortal>
     </header>);
 
 }
